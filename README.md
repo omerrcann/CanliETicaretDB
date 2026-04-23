@@ -1,6 +1,6 @@
 # 🌐 E-Ticaret Operasyon Merkezi (Canlı Veri Pipeline)
 
-[![Live App](https://img.shields.io/badge/🔴_CANLI_UYGULAMAYI_GÖR-FF4B4B?style=for-the-badge)](BURAYA_CANLI_SITENIN_LINKINI_YAPISTIR)
+[![Live App](https://img.shields.io/badge/🔴_CANLI_UYGULAMAYI_GÖR-FF4B4B?style=for-the-badge)](https://canlieticaretdb-hrfxq9a75tktkwkpnqgfu8.streamlit.app/)
 
 Bu proje, Python tabanlı bir e-ticaret veri simülasyonu ve gerçek zamanlı analitik panelidir. Sistemin temel amacı; veritabanı mimarisi, SQL entegrasyonu ve canlı veri görselleştirme süreçlerini uçtan uca (End-to-End) sergilemektir.
 
