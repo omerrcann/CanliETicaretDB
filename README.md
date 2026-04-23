@@ -37,14 +37,14 @@ Projeyi yerel bilgisayarınızda çalıştırmak için:
    ```bash
    git clone [https://github.com/omerrcann/CanliETicaretDB.git](https://github.com/omerrcann/CanliETicaretDB.git)
    
-Gerekli kütüphaneleri kurun:
+2. Gerekli kütüphaneleri kurun:
 
 ```bash
 pip install -r requirements.txt
 ```
 
 
-Uygulamayı başlatın:
+3. Uygulamayı başlatın:
 ```bash
 streamlit run dashboard.py
 ```
