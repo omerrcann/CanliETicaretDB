@@ -215,28 +215,14 @@ if not df_hiyerarsi.empty:
 
     with satir2_sol:
         if not df_sehir.empty:
+            # Streamlit'in kendi haritası sütun isimlerinin tam olarak 'lat' ve 'lon' olmasını ister
             df_sehir['lat'] = df_sehir['Sehir'].apply(lambda x: KOORDINATLAR.get(x, (39.0, 35.0))[0])
             df_sehir['lon'] = df_sehir['Sehir'].apply(lambda x: KOORDINATLAR.get(x, (39.0, 35.0))[1])
 
-            # En sade, sürüm uyumsuzluğu yaratmayan harita kodu
-            fig_map = px.scatter_mapbox(
-                df_sehir, 
-                lat="lat", 
-                lon="lon", 
-                size="Ciro", 
-                color="Ciro", 
-                hover_name="Sehir", 
-                hover_data=["SiparisSayisi"], 
-                color_continuous_scale="viridis", 
-                size_max=40, 
-                zoom=4.5,
-                center={"lat": 39.0, "lon": 35.0}, 
-                title="📍 Şehir Bazında Sipariş Yoğunluğu",
-                mapbox_style="carto-darkmatter", 
-                template="plotly_dark"
-            )
-            fig_map.update_layout(margin=dict(l=0, r=0, t=40, b=0), height=400)
-            st.plotly_chart(fig_map, use_container_width=True)
+            st.markdown("<p style='text-align: center; color: #8B949E; font-weight: bold; margin-bottom: 0px;'>📍 Şehir Bazında Sipariş Yoğunluğu</p>", unsafe_allow_html=True)
+            
+            # Plotly Mapbox çökmelerini bypass eden, Streamlit'in %100 güvenli yerleşik haritası
+            st.map(df_sehir, latitude='lat', longitude='lon', size='Ciro', color='#00F2FF', zoom=4.5)
         else:
             st.info("🗺️ Harita için henüz sipariş verisi bekleniyor...")
 
