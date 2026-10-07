@@ -214,23 +214,33 @@ if not df_hiyerarsi.empty:
 
     satir2_sol, satir2_sag = st.columns([1.5, 1])
     
-    with satir2_sol:
-        if not df_sehir.empty:
-            df_sehir['lat'] = df_sehir['Sehir'].apply(lambda x: KOORDINATLAR.get(x, (39.0, 35.0))[0])
-            df_sehir['lon'] = df_sehir['Sehir'].apply(lambda x: KOORDINATLAR.get(x, (39.0, 35.0))[1])
-
-            fig_map = px.scatter_mapbox(
-                df_sehir, lat="lat", lon="lon", size="Ciro", color="Ciro",
-                hover_name="Sehir", hover_data={"SiparisSayisi": True, "lat": False, "lon": False},
-                color_continuous_scale="Plasma", size_max=40, zoom=4.5,
-                center={"lat": 39.0, "lon": 35.0}, title="📍 Şehir Bazında Sipariş Yoğunluğu",
-                mapbox_style="carto-darkmatter", template="plotly_dark"
-            )
-            fig_map.update_layout(margin=dict(l=0, r=0, t=40, b=0), height=400)
-            st.plotly_chart(fig_map, use_container_width=True)
-        else:
-            st.info("🗺️ Harita için henüz sipariş verisi bekleniyor...")
-  
+      with satir2_sol:
+              if not df_sehir.empty:
+                  df_sehir['lat'] = df_sehir['Sehir'].apply(lambda x: KOORDINATLAR.get(x, (39.0, 35.0))[0])
+                  df_sehir['lon'] = df_sehir['Sehir'].apply(lambda x: KOORDINATLAR.get(x, (39.0, 35.0))[1])
+      
+                  # En sade, sürüm uyumsuzluğu yaratmayan harita kodu
+                  fig_map = px.scatter_mapbox(
+                      df_sehir, 
+                      lat="lat", 
+                      lon="lon", 
+                      size="Ciro", 
+                      color="Ciro", 
+                      hover_name="Sehir", 
+                      hover_data=["SiparisSayisi"], 
+                      color_continuous_scale="viridis", 
+                      size_max=40, 
+                      zoom=4.5,
+                      center={"lat": 39.0, "lon": 35.0}, 
+                      title="📍 Şehir Bazında Sipariş Yoğunluğu",
+                      mapbox_style="carto-darkmatter", 
+                      template="plotly_dark"
+                  )
+                  fig_map.update_layout(margin=dict(l=0, r=0, t=40, b=0), height=400)
+                  st.plotly_chart(fig_map, use_container_width=True)
+              else:
+                  st.info("🗺️ Harita için henüz sipariş verisi bekleniyor...")
+        
       with satir2_sag:
           df_top_sehir = df_sehir.sort_values('Ciro', ascending=True).tail(7)
           fig_bar = px.bar(df_top_sehir, x='Ciro', y='Sehir', orientation='h', title="🏆 En Çok Ciro Yapan Şehirler",
