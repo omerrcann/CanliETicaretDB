@@ -26,7 +26,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown(
-    "<h2 style='text-align: center; color: #00F2FF; text-shadow: 0 0 15px rgba(0,242,255,0.4);'>⚡  E-TİCARET OPERASYON MERKEZİ ⚡</h2><hr style='border: 0.5px solid #30363D;'>",
+    "<h2 style='text-align: center; color: #00F2FF; text-shadow: 0 0 15px rgba(0,242,255,0.4);'>⚡ E-TİCARET OPERASYON MERKEZİ ⚡</h2><hr style='border: 0.5px solid #30363D;'>",
     unsafe_allow_html=True)
 
 KOORDINATLAR = {
@@ -218,12 +218,22 @@ if not df_hiyerarsi.empty:
             df_sehir['lat'] = df_sehir['Sehir'].apply(lambda x: KOORDINATLAR.get(x, (39.0, 35.0))[0])
             df_sehir['lon'] = df_sehir['Sehir'].apply(lambda x: KOORDINATLAR.get(x, (39.0, 35.0))[1])
 
+            # En sade, sürüm uyumsuzluğu yaratmayan harita kodu
             fig_map = px.scatter_mapbox(
-                df_sehir, lat="lat", lon="lon", size="Ciro", color="Ciro",
-                hover_name="Sehir", hover_data={"SiparisSayisi": True, "lat": False, "lon": False},
-                color_continuous_scale="Plasma", size_max=40, zoom=4.5,
-                center={"lat": 39.0, "lon": 35.0}, title="📍 Şehir Bazında Sipariş Yoğunluğu",
-                mapbox_style="carto-darkmatter", template="plotly_dark"
+                df_sehir, 
+                lat="lat", 
+                lon="lon", 
+                size="Ciro", 
+                color="Ciro", 
+                hover_name="Sehir", 
+                hover_data=["SiparisSayisi"], 
+                color_continuous_scale="viridis", 
+                size_max=40, 
+                zoom=4.5,
+                center={"lat": 39.0, "lon": 35.0}, 
+                title="📍 Şehir Bazında Sipariş Yoğunluğu",
+                mapbox_style="carto-darkmatter", 
+                template="plotly_dark"
             )
             fig_map.update_layout(margin=dict(l=0, r=0, t=40, b=0), height=400)
             st.plotly_chart(fig_map, use_container_width=True)
