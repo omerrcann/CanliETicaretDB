@@ -215,14 +215,20 @@ if not df_hiyerarsi.empty:
 
     with satir2_sol:
         if not df_sehir.empty:
-            # Streamlit'in kendi haritası sütun isimlerinin tam olarak 'lat' ve 'lon' olmasını ister
             df_sehir['lat'] = df_sehir['Sehir'].apply(lambda x: KOORDINATLAR.get(x, (39.0, 35.0))[0])
             df_sehir['lon'] = df_sehir['Sehir'].apply(lambda x: KOORDINATLAR.get(x, (39.0, 35.0))[1])
 
+            # Dev yuvarlakları önlemek için ciro değerlerini makul metre boyutlarına orantılıyoruz (10km - 50km arası)
+            max_ciro = df_sehir['Ciro'].max()
+            if max_ciro > 0:
+                df_sehir['HaritaBoyutu'] = (df_sehir['Ciro'] / max_ciro) * 40000 + 10000
+            else:
+                df_sehir['HaritaBoyutu'] = 15000
+
             st.markdown("<p style='text-align: center; color: #8B949E; font-weight: bold; margin-bottom: 0px;'>📍 Şehir Bazında Sipariş Yoğunluğu</p>", unsafe_allow_html=True)
             
-            # Plotly Mapbox çökmelerini bypass eden, Streamlit'in %100 güvenli yerleşik haritası
-            st.map(df_sehir, latitude='lat', longitude='lon', size='Ciro', color='#00F2FF', zoom=4.5)
+            # size parametresine artık ham ciroyu değil, oranlanmış boyutu veriyoruz
+            st.map(df_sehir, latitude='lat', longitude='lon', size='HaritaBoyutu', color='#00F2FF', zoom=4.5)
         else:
             st.info("🗺️ Harita için henüz sipariş verisi bekleniyor...")
 
